@@ -1,0 +1,781 @@
+{
+  "source_record_schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Context Engineering Source Record",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "id",
+      "title",
+      "year",
+      "venue_or_publisher",
+      "org_name",
+      "org_type",
+      "url",
+      "access_date",
+      "domains",
+      "lever_tags",
+      "terminology",
+      "methods",
+      "datasets_or_tasks",
+      "metrics",
+      "claims_primary",
+      "claims_limitations",
+      "evidence_strength",
+      "credibility_tier",
+      "task_domain",
+      "retrieval_or_memory_strategy",
+      "risk_factors",
+      "governance_signals",
+      "artifact_type",
+      "notes",
+      "tags_freeform"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^CTX-[0-9]{4}-[A-Z0-9]{6}$",
+        "description": "Stable record ID (e.g., CTX-2025-AB12CD)."
+      },
+      "title": { "type": "string", "minLength": 3 },
+      "year": { "type": "integer", "minimum": 2000, "maximum": 2100 },
+      "venue_or_publisher": { "type": "string", "minLength": 2 },
+      "org_name": { "type": "string", "minLength": 2 },
+      "org_type": {
+        "type": "string",
+        "enum": [
+          "academic_lab",
+          "industry_lab",
+          "startup",
+          "standards_body",
+          "government",
+          "nonprofit",
+          "community_project",
+          "media",
+          "independent_researcher"
+        ]
+      },
+      "url": { "type": "string", "format": "uri" },
+      "access_date": { "type": "string", "format": "date" },
+      "domains": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": [
+            "ai_ml",
+            "information_retrieval",
+            "hci",
+            "cognitive_science",
+            "behavioral_science",
+            "data_ethics",
+            "security_privacy",
+            "software_engineering",
+            "nlp",
+            "vision",
+            "multimodal",
+            "legal",
+            "healthcare",
+            "code",
+            "customer_support",
+            "productivity",
+            "data_analysis",
+            "finance",
+            "education",
+            "policy_governance"
+          ]
+        }
+      },
+      "lever_tags": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "anyOf": [
+            { "const": "framing" },
+            { "const": "injection" },
+            { "const": "structuring" },
+            { "const": "weighting" },
+            { "const": "boundaries" },
+            { "const": "compression_distillation" },
+            { "const": "temporal_freshness" },
+            { "const": "multimodal_context" },
+            { "const": "security_integrity" },
+            { "const": "persistence" },
+            { "const": "governance_auditability" },
+            { "pattern": "^emergent_[a-z0-9_]+$" }
+          ]
+        },
+        "allOf": [
+          {
+            "contains": {
+              "anyOf": [
+                { "const": "framing" },
+                { "const": "injection" },
+                { "const": "structuring" },
+                { "const": "weighting" },
+                { "const": "boundaries" }
+              ]
+            }
+          }
+        ]
+      },
+      "terminology": {
+        "type": "array",
+        "items": { "type": "string", "minLength": 2 },
+        "minItems": 1,
+        "uniqueItems": true
+      },
+      "methods": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "anyOf": [
+            { "const": "theoretical" },
+            { "const": "controlled_experiment" },
+            { "const": "ablation_study" },
+            { "const": "observational_study" },
+            { "const": "case_study" },
+            { "const": "user_study" },
+            { "const": "survey" },
+            { "const": "interview" },
+            { "const": "benchmark_evaluation" },
+            { "const": "simulation" },
+            { "const": "system_description" },
+            { "const": "red_team" },
+            { "const": "security_analysis" },
+            { "const": "audit" },
+            { "pattern": "^emergent_method_[a-z0-9_]+$" }
+          ]
+        }
+      },
+      "datasets_or_tasks": {
+        "type": "array",
+        "items": { "type": "string", "minLength": 2 },
+        "minItems": 0,
+        "uniqueItems": true
+      },
+      "metrics": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "anyOf": [
+            { "const": "accuracy" },
+            { "const": "precision" },
+            { "const": "recall" },
+            { "const": "f1" },
+            { "const": "exact_match" },
+            { "const": "rouge" },
+            { "const": "bleu" },
+            { "const": "bertscore" },
+            { "const": "faithfulness" },
+            { "const": "groundedness" },
+            { "const": "helpfulness" },
+            { "const": "toxicity" },
+            { "const": "harmlessness" },
+            { "const": "satisfaction" },
+            { "const": "latency" },
+            { "const": "cost_tokens" },
+            { "const": "throughput" },
+            { "const": "robustness" },
+            { "const": "adversarial_success_rate" },
+            { "const": "calibration" },
+            { "const": "win_rate" },
+            { "pattern": "^metric_[a-z0-9_]+$" }
+          ]
+        }
+      },
+      "claims_primary": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "type": "string", "minLength": 3 }
+      },
+      "claims_limitations": {
+        "type": "array",
+        "minItems": 0,
+        "items": { "type": "string", "minLength": 3 }
+      },
+      "evidence_strength": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["level", "rationale"],
+        "properties": {
+          "level": {
+            "type": "string",
+            "enum": [
+              "causal_strong",
+              "causal_moderate",
+              "associational",
+              "anecdotal",
+              "speculative"
+            ]
+          },
+          "rationale": { "type": "string", "minLength": 5 }
+        },
+        "description": "Enum + rationale describing causal strength."
+      },
+      "credibility_tier": {
+        "type": "integer",
+        "enum": [1, 2, 3, 4]
+      },
+      "task_domain": {
+        "type": "string",
+        "enum": [
+          "healthcare",
+          "legal",
+          "code",
+          "customer_support",
+          "productivity",
+          "data_analysis",
+          "education",
+          "finance",
+          "security",
+          "policy",
+          "general",
+          "science",
+          "software_dev"
+        ]
+      },
+      "retrieval_or_memory_strategy": {
+        "type": "array",
+        "uniqueItems": true,
+        "minItems": 0,
+        "items": {
+          "type": "string",
+          "anyOf": [
+            { "const": "bm25" },
+            { "const": "vector" },
+            { "const": "hybrid" },
+            { "const": "memory_key_value" },
+            { "const": "tool_augmented" },
+            { "const": "structured_kb" },
+            { "const": "graph" },
+            { "const": "none" },
+            { "const": "long_context" },
+            { "const": "sliding_window" },
+            { "const": "summarization_memory" },
+            { "const": "episodic_memory" },
+            { "const": "semantic_routing" },
+            { "const": "rerankers" },
+            { "pattern": "^other_[a-z0-9_]+$" }
+          ]
+        }
+      },
+      "risk_factors": {
+        "type": "array",
+        "uniqueItems": true,
+        "minItems": 0,
+        "items": {
+          "type": "string",
+          "anyOf": [
+            { "const": "prompt_injection" },
+            { "const": "test_traces_leakage" },
+            { "const": "pii_exposure" },
+            { "const": "ip_copyright" },
+            { "const": "jailbreak_vuln" },
+            { "const": "data_poisoning" },
+            { "const": "privacy_attack" },
+            { "const": "security_misconfiguration" },
+            { "const": "bias_fairness" },
+            { "const": "safety" },
+            { "const": "overreliance" },
+            { "const": "hallucination" },
+            { "const": "misuse" },
+            { "const": "model_inversion" },
+            { "const": "membership_inference" },
+            { "const": "model_drift" },
+            { "const": "goodharts_law" },
+            { "const": "eval_leakage" },
+            { "pattern": "^emergent_risk_[a-z0-9_]+$" }
+          ]
+        }
+      },
+      "governance_signals": {
+        "type": "array",
+        "uniqueItems": true,
+        "minItems": 0,
+        "items": {
+          "type": "string",
+          "anyOf": [
+            { "const": "open_source_repo" },
+            { "const": "released_dataset" },
+            { "const": "eval_code_open" },
+            { "const": "irb_approved" },
+            { "const": "preregistered" },
+            { "const": "third_party_audit" },
+            { "const": "red_team" },
+            { "const": "policy_alignment" },
+            { "const": "data_governance" },
+            { "const": "security_assessment" },
+            { "const": "usage_analytics" },
+            { "const": "pseudonymized" },
+            { "const": "pii_minimization" },
+            { "const": "consent_obtained" },
+            { "const": "nda" },
+            { "const": "none" },
+            { "pattern": "^emergent_gov_[a-z0-9_]+$" }
+          ]
+        }
+      },
+      "artifact_type": {
+        "type": "string",
+        "enum": [
+          "paper",
+          "blog",
+          "whitepaper",
+          "documentation",
+          "demo",
+          "slide",
+          "video",
+          "dataset",
+          "github_readme",
+          "report"
+        ]
+      },
+      "notes": { "type": "string" },
+      "tags_freeform": {
+        "type": "array",
+        "minItems": 0,
+        "uniqueItems": true,
+        "items": { "type": "string", "minLength": 2 }
+      }
+    }
+  },
+
+  "screening_rubric": {
+    "rule_precedence": ["auto_exclude", "auto_include", "human_review"],
+    "auto_exclude": [
+      {
+        "name": "DateTooOld",
+        "logic": "year < 2020",
+        "explanation": "Outside time window."
+      },
+      {
+        "name": "NonContextTopic",
+        "logic": "title/abstract lacks any of {context, prompt, retrieval, RAG, memory, in-context, long-context, instruction, guardrail, tool use, weighting, rerank}",
+        "explanation": "Not about context engineering."
+      },
+      {
+        "name": "OpinionOnly",
+        "logic": "artifact_type in {blog, slide, video} AND methods == [] AND metrics == []",
+        "explanation": "No methods or measurements."
+      }
+    ],
+    "auto_include": [
+      {
+        "name": "TopVenueWithAblation",
+        "logic": "venue_or_publisher in {NeurIPS, ICML, ICLR, ACL, EMNLP, CHI, TOIS, KDD, NAACL, WWW, SIGIR} AND methods contains ablation_study",
+        "explanation": "High‑credibility with lever manipulation."
+      },
+      {
+        "name": "ReputableLabWithEval",
+        "logic": "org_type == industry_lab AND artifact_type in {whitepaper, report, paper} AND (methods contains benchmark_evaluation OR controlled_experiment)",
+        "explanation": "Industry report with evaluation."
+      }
+    ],
+    "human_review": [
+      {
+        "name": "GreyLitWithEvidence",
+        "logic": "artifact_type in {blog, documentation, demo, github_readme} AND (metrics != [] OR methods intersects {case_study, user_study, survey, red_team})",
+        "explanation": "Grey literature that may contain valuable evidence."
+      },
+      {
+        "name": "AmbiguousTerminology",
+        "logic": "terminology includes adjacent terms only (e.g., 'prompting' or 'guardrails') without explicit context link",
+        "explanation": "Requires content inspection."
+      }
+    ],
+    "examples": [
+      {
+        "example": true,
+        "title": "Company blog: 'Why LLMs Will Change Everything'",
+        "artifact_type": "blog",
+        "methods": [],
+        "metrics": [],
+        "decision": "auto_exclude",
+        "rule": "OpinionOnly"
+      },
+      {
+        "example": true,
+        "title": "ICLR paper on hybrid RAG with ablations",
+        "artifact_type": "paper",
+        "venue_or_publisher": "ICLR",
+        "methods": ["ablation_study", "benchmark_evaluation"],
+        "decision": "auto_include",
+        "rule": "TopVenueWithAblation"
+      },
+      {
+        "example": true,
+        "title": "Startup demo with measured latency, cost, groundedness",
+        "artifact_type": "demo",
+        "methods": ["benchmark_evaluation", "case_study"],
+        "metrics": ["latency", "cost_tokens", "groundedness"],
+        "decision": "human_review",
+        "rule": "GreyLitWithEvidence"
+      }
+    ]
+  },
+
+  "coding_codebook": {
+    "levers_primary": [
+      {
+        "code": "framing",
+        "definition": "Intent-setting language shaping model behavior; no new external facts.",
+        "decision_rules": [
+          "Label when system prompt or role instructions change without adding sources.",
+          "Do NOT label if external documents/tools added."
+        ],
+        "examples": ["Role priming", "Style/tone constraints"],
+        "non_examples": ["Retrieving a PDF", "Reranking snippets"]
+      },
+      {
+        "code": "injection",
+        "definition": "Supplying external information (retrieval, memory, tools, KBs).",
+        "decision_rules": ["Include RAG, tool outputs, structured KBs.", "Exclude pure ordering changes."],
+        "examples": ["BM25 + vector hybrid", "Function/tool call result appended"],
+        "non_examples": ["Repeating constraints", "JSON schema without new facts"]
+      },
+      {
+        "code": "structuring",
+        "definition": "Schemas/templates/workflows constraining I/O; planning/orchestration.",
+        "decision_rules": ["JSON schema, XML, planner, multi-step tool flows."],
+        "examples": ["Planner chooses tools", "Typed JSON outputs"],
+        "non_examples": ["Just longer context", "Only reranking"]
+      },
+      {
+        "code": "weighting",
+        "definition": "Order, duplication, salience markers, or reranking modifying prominence.",
+        "decision_rules": ["Include cross-encoder rerank, duplication, priority tokens."],
+        "examples": ["Repeat high-priority constraints", "Sort by score"],
+        "non_examples": ["Filtering out docs entirely", "Adding new data"]
+      },
+      {
+        "code": "boundaries",
+        "definition": "Constraints/scopes/policies that restrict behavior or access.",
+        "decision_rules": ["Include refusal rules, policy prompts, tool whitelists."],
+        "examples": ["Refusal list", "Tool scope limitation"],
+        "non_examples": ["Post-hoc moderation only"]
+      }
+    ],
+    "levers_secondary": [
+      {
+        "code": "compression_distillation",
+        "definition": "Summarization/elision preserving utility under token budgets."
+      },
+      { "code": "temporal_freshness", "definition": "Recency controls and time-aware retrieval." },
+      { "code": "multimodal_context", "definition": "Images/audio/tables/diagrams as context." },
+      { "code": "security_integrity", "definition": "Defenses/provenance/signing/sandboxing." },
+      { "code": "persistence", "definition": "Long-lived memory and recall policies." },
+      { "code": "governance_auditability", "definition": "Logging, access controls, policy compliance." }
+    ],
+    "risks": [
+      { "code": "prompt_injection", "definition": "Adversarial content causes rule override or data exfil." },
+      { "code": "test_traces_leakage", "definition": "Evaluation contamination via seen examples." },
+      { "code": "pii_exposure", "definition": "Personal data exposure through context/memory." },
+      { "code": "ip_copyright", "definition": "Copyrighted text/images injected without rights." },
+      { "code": "jailbreak_vuln", "definition": "Evasion of boundaries via crafted prompts." },
+      { "code": "data_poisoning", "definition": "Malicious data in sources corrupts behavior." },
+      { "code": "privacy_attack", "definition": "Membership/model inversion, deanonymization." },
+      { "code": "security_misconfiguration", "definition": "Access controls or tool scope errors." },
+      { "code": "bias_fairness", "definition": "Context skews outputs against groups." },
+      { "code": "safety", "definition": "Harmful content generation risks." },
+      { "code": "overreliance", "definition": "Users over-trust outputs due to framing." },
+      { "code": "hallucination", "definition": "Unsupported claims despite context." },
+      { "code": "misuse", "definition": "Dual-use escalation via context." },
+      { "code": "model_inversion", "definition": "Sensitive training data extraction." },
+      { "code": "membership_inference", "definition": "Presence inference of data points." },
+      { "code": "model_drift", "definition": "Behavior changes over time affect context efficacy." },
+      { "code": "goodharts_law", "definition": "Metric gaming under optimization pressure." },
+      { "code": "eval_leakage", "definition": "Hidden overlap between eval set and context." }
+    ],
+    "governance": [
+      { "code": "open_source_repo", "definition": "Public code repository for methods/evals." },
+      { "code": "released_dataset", "definition": "Public dataset for replication." },
+      { "code": "eval_code_open", "definition": "Evaluation harness released." },
+      { "code": "irb_approved", "definition": "Ethics oversight approval." },
+      { "code": "preregistered", "definition": "Study preregistration exists." },
+      { "code": "third_party_audit", "definition": "Independent audit conducted." },
+      { "code": "red_team", "definition": "Documented red-team process." },
+      { "code": "policy_alignment", "definition": "Internal/external policy mapping." },
+      { "code": "data_governance", "definition": "Lineage, retention, access controls documented." },
+      { "code": "security_assessment", "definition": "Threat model and mitigations documented." },
+      { "code": "usage_analytics", "definition": "Telemetry for safety/utility tracking." },
+      { "code": "pseudonymized", "definition": "Identifiers removed or tokenized." },
+      { "code": "pii_minimization", "definition": "Minimal PII policy implemented." },
+      { "code": "consent_obtained", "definition": "Explicit user/participant consent." },
+      { "code": "nda", "definition": "NDA governs data sharing." },
+      { "code": "none", "definition": "No governance signals present." }
+    ],
+    "methods": [
+      { "code": "theoretical", "definition": "Proofs or conceptual analysis." },
+      { "code": "controlled_experiment", "definition": "Randomized or blocked manipulations." },
+      { "code": "ablation_study", "definition": "Systematic component removal." },
+      { "code": "observational_study", "definition": "Non-interventional observation." },
+      { "code": "case_study", "definition": "Single setting, deep dive." },
+      { "code": "user_study", "definition": "Human participants with UX measures." },
+      { "code": "survey", "definition": "Questionnaire-based evidence." },
+      { "code": "interview", "definition": "Qualitative expert/practitioner interviews." },
+      { "code": "benchmark_evaluation", "definition": "Standard tasks/benchmarks comparison." },
+      { "code": "simulation", "definition": "Synthetic environments or data." },
+      { "code": "system_description", "definition": "Architecture/engineering description." },
+      { "code": "red_team", "definition": "Adversarial probing." },
+      { "code": "security_analysis", "definition": "Threat modeling/penetration analysis." },
+      { "code": "audit", "definition": "Compliance/standards audit." }
+    ],
+    "metrics": [
+      { "code": "accuracy", "definition": "Overall correctness." },
+      { "code": "precision", "definition": "Positive predictive value." },
+      { "code": "recall", "definition": "Sensitivity/coverage." },
+      { "code": "f1", "definition": "Harmonic mean of precision/recall." },
+      { "code": "exact_match", "definition": "Strict match to reference." },
+      { "code": "rouge", "definition": "Summary overlap metrics." },
+      { "code": "bleu", "definition": "Machine translation overlap." },
+      { "code": "bertscore", "definition": "Semantic similarity." },
+      { "code": "faithfulness", "definition": "Grounding to provided context." },
+      { "code": "groundedness", "definition": "Citation/traceability to sources." },
+      { "code": "helpfulness", "definition": "Human preference or rating." },
+      { "code": "toxicity", "definition": "Toxic content rate." },
+      { "code": "harmlessness", "definition": "Avoidance of harmful outputs." },
+      { "code": "satisfaction", "definition": "User-reported satisfaction." },
+      { "code": "latency", "definition": "Time to result." },
+      { "code": "cost_tokens", "definition": "Token usage / cost." },
+      { "code": "throughput", "definition": "Tasks per unit time." },
+      { "code": "robustness", "definition": "Performance under perturbations." },
+      { "code": "adversarial_success_rate", "definition": "Attacker success frequency." },
+      { "code": "calibration", "definition": "Confidence alignment." },
+      { "code": "win_rate", "definition": "Pairwise preference wins vs baseline." }
+    ],
+    "emergent_tag_policy": {
+      "prefixes": ["emergent_", "emergent_method_", "emergent_risk_", "emergent_gov_"],
+      "promotion_rule": "Tags used in ≥5 distinct records with consistent definition become candidates for formalization in next schema minor release."
+    }
+  },
+
+  "credibility_rules": {
+    "mapping": {
+      "venues": {
+        "tier_1": ["NeurIPS", "ICML", "ICLR", "ACL", "EMNLP", "NAACL", "CHI", "TOIS", "SIGIR", "KDD", "WWW"],
+        "tier_2": ["TACL", "JAIR", "Transactions on ML", "JMLR", "AAAI", "IJCAI", "Standards_Body"],
+        "notes": "Venue mapping interacts with org_type and artifact_type."
+      },
+      "org_types": {
+        "academic_lab": 1,
+        "industry_lab": 2,
+        "startup": 3,
+        "standards_body": 2,
+        "government": 2,
+        "nonprofit": 2,
+        "community_project": 3,
+        "media": 4,
+        "independent_researcher": 3
+      }
+    },
+    "tie_breakers": [
+      "Prefer items with open eval code/data.",
+      "Prefer newer versions with stronger methods (ablation > anecdote).",
+      "If duplicate venue and org_type, prefer richer artifacts (demo+paper > paper only)."
+    ]
+  },
+
+  "export_formats": {
+    "jsonl": {
+      "field_order": [
+        "id",
+        "title",
+        "year",
+        "venue_or_publisher",
+        "org_name",
+        "org_type",
+        "url",
+        "access_date",
+        "domains",
+        "lever_tags",
+        "terminology",
+        "methods",
+        "datasets_or_tasks",
+        "metrics",
+        "claims_primary",
+        "claims_limitations",
+        "evidence_strength",
+        "credibility_tier",
+        "task_domain",
+        "retrieval_or_memory_strategy",
+        "risk_factors",
+        "governance_signals",
+        "artifact_type",
+        "notes",
+        "tags_freeform"
+      ],
+      "null_handling": "Omit absent optional arrays; use [] for empty lists; use null only for optional scalar fields not present.",
+      "encoding": "UTF-8",
+      "newline": "\\n",
+      "bom": false
+    },
+    "csv": {
+      "columns": [
+        "id",
+        "title",
+        "year",
+        "venue_or_publisher",
+        "org_name",
+        "org_type",
+        "url",
+        "access_date",
+        "domains|json",
+        "lever_tags|json",
+        "terminology|json",
+        "methods|json",
+        "datasets_or_tasks|json",
+        "metrics|json",
+        "claims_primary|json",
+        "claims_limitations|json",
+        "evidence_strength.level",
+        "evidence_strength.rationale",
+        "credibility_tier",
+        "task_domain",
+        "retrieval_or_memory_strategy|json",
+        "risk_factors|json",
+        "governance_signals|json",
+        "artifact_type",
+        "notes",
+        "tags_freeform|json"
+      ],
+      "array_serialization": "JSON inside cell",
+      "encoding": "UTF-8",
+      "newline": "\\n",
+      "quote_char": "\"",
+      "escape": "double"
+    }
+  },
+
+  "intercoder_reliability_plan": {
+    "sample_size_rule": "Max(50 records, 20% of eligible corpus) for double-coding per milestone.",
+    "kappa_target": 0.75,
+    "units": ["lever_tags", "methods", "metrics", "risk_factors", "credibility_tier"],
+    "adjudication_steps": [
+      "Compute κ per unit; if κ < 0.75, run discrepancy workshop.",
+      "Update codebook with clarifications/examples.",
+      "Re-code a fresh 10% sample to confirm κ recovery.",
+      "Log adjudication decisions with timestamps and coder IDs."
+    ],
+    "audit_trail_fields": [
+      "record_id",
+      "coder_id",
+      "timestamp",
+      "field",
+      "initial_code",
+      "final_code",
+      "adjudication_note"
+    ]
+  },
+
+  "filename_conventions": {
+    "project_slug": "context-engineering",
+    "id_pattern": "^CTX-[0-9]{4}-[A-Z0-9]{6}$",
+    "ingest_dir": "data/raw/",
+    "processed_dir": "data/processed/",
+    "exports": {
+      "jsonl": "exports/context-engineering_records_v{version}.jsonl",
+      "csv": "exports/context-engineering_records_v{version}.csv"
+    },
+    "snapshots": "snapshots/{yyyymmdd}/",
+    "logs": "logs/{yyyymmdd}/stage2_ingest.log",
+    "checksum": "exports/context-engineering_records_v{version}.sha256"
+  },
+
+  "examples": [
+    {
+      "example": true,
+      "id": "CTX-2024-AB12CD",
+      "title": "Hybrid RAG with Salience Weighting Improves Grounded QA",
+      "year": 2024,
+      "venue_or_publisher": "ICLR",
+      "org_name": "Example University NLP Lab",
+      "org_type": "academic_lab",
+      "url": "https://example.org/iclr24-hybrid-rag.pdf",
+      "access_date": "2025-08-10",
+      "domains": ["ai_ml", "information_retrieval", "nlp"],
+      "lever_tags": [
+        "injection",
+        "structuring",
+        "weighting",
+        "compression_distillation",
+        "governance_auditability",
+        "emergent_attention_curation"
+      ],
+      "terminology": ["RAG", "salience weighting", "in-context learning"],
+      "methods": ["ablation_study", "controlled_experiment", "benchmark_evaluation"],
+      "datasets_or_tasks": ["HotpotQA", "MultiDocQA"],
+      "metrics": ["exact_match", "faithfulness", "latency", "cost_tokens"],
+      "claims_primary": [
+        "Hybrid retrieval with cross-encoder reranking yields +5.2 EM over BM25-only.",
+        "Repeating constraints twice increases groundedness without cost blowup."
+      ],
+      "claims_limitations": [
+        "Evaluated on two English QA datasets only.",
+        "Single model family; generalization unknown."
+      ],
+      "evidence_strength": {
+        "level": "causal_moderate",
+        "rationale": "Randomized ablations with fixed seeds; leakage checks reported; no preregistration."
+      },
+      "credibility_tier": 1,
+      "task_domain": "customer_support",
+      "retrieval_or_memory_strategy": ["hybrid", "rerankers", "summarization_memory"],
+      "risk_factors": ["prompt_injection", "eval_leakage"],
+      "governance_signals": ["eval_code_open", "data_governance"],
+      "artifact_type": "paper",
+      "notes": "Strong methodological clarity; reusable prompt templates included.",
+      "tags_freeform": ["few-shot", "long-context", "cross-encoder"]
+    },
+    {
+      "example": true,
+      "id": "CTX-2025-ZX9QWE",
+      "title": "Policy-Bounded Tool Use with Temporal Refresh for Compliance",
+      "year": 2025,
+      "venue_or_publisher": "Anthropic Engineering Report",
+      "org_name": "Anthropic",
+      "org_type": "industry_lab",
+      "url": "https://labs.example.com/policy-bounded-tools-report",
+      "access_date": "2025-08-12",
+      "domains": ["ai_ml", "security_privacy", "policy_governance"],
+      "lever_tags": [
+        "boundaries",
+        "structuring",
+        "temporal_freshness",
+        "security_integrity",
+        "persistence"
+      ],
+      "terminology": ["guardrails", "policy-bounded prompting", "tool use"],
+      "methods": ["system_description", "benchmark_evaluation", "red_team"],
+      "datasets_or_tasks": ["ComplianceQA", "ChangeLogMonitor"],
+      "metrics": ["win_rate", "toxicity", "adversarial_success_rate", "cost_tokens"],
+      "claims_primary": [
+        "Policy-bound tool scopes reduce adversarial success rate by 42%.",
+        "Daily refresh of regulatory corpus maintains performance within 1% of monthly retrains."
+      ],
+      "claims_limitations": [
+        "Proprietary benchmark; limited public replication.",
+        "Focuses on finance/legal compliance domains."
+      ],
+      "evidence_strength": {
+        "level": "associational",
+        "rationale": "Before/after and red-team comparisons; no randomized controls; partial openness."
+      },
+      "credibility_tier": 2,
+      "task_domain": "legal",
+      "retrieval_or_memory_strategy": ["structured_kb", "semantic_routing", "long_context"],
+      "risk_factors": ["jailbreak_vuln", "ip_copyright", "model_drift"],
+      "governance_signals": ["third_party_audit", "security_assessment", "policy_alignment"],
+      "artifact_type": "report",
+      "notes": "Detailed tool permission model; includes refusal policy templates.",
+      "tags_freeform": ["policy", "refresh", "guardrails"]
+    }
+  ]
+}
