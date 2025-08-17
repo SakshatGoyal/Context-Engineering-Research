@@ -1,7 +1,8 @@
-===FILE: STAGE1_README.md===
+
 # Stage 1 — Approach to Gathering Data (Master Plan)
 
 ## Executive Summary
+
 **Purpose.** Build an interdisciplinary, LLM-era map of “context engineering”—what it is, what adjacent communities call it, how it works, and when/why it works—then translate that into actionable design patterns and evaluation playbooks.
 
 **Payoff.** A shared vocabulary, an evidence-backed framework, and field-tested guidance for practitioners (product, research, data, and design).
@@ -11,6 +12,7 @@
 ---
 
 ## Research Questions (verbatim) → Operational Questions → Intended Evidence
+
 **RQ1.** *How is “context” defined and operationalized across AI/ML, IR, HCI, cognitive/behavioral science, and data ethics (LLM era)?*  
 • Operational: Extract formal and informal definitions; identify unit(s) of context (tokens, documents, schemas, tools, memory entries); note operational proxies (e.g., retrieved chunk, system prompt).  
 • Evidence: Literature definitions; method sections; evaluation harness descriptions; architecture diagrams; interview claims from academics/practitioners.
@@ -46,7 +48,9 @@
 ---
 
 ## Lever Taxonomy (Primary & Secondary) — Operational Definitions with Examples/Non‑Examples
+
 **Primary Levers**
+
 1. **Framing** — Intent-setting language (system prompts, role, tone) that conditions model behavior without adding external facts.  
    • *Example:* “You are a careful tax analyst…” + instructions clarifying citation style.  
    • *Non‑Example:* Adding retrieved IRS documents (that’s Injection).
@@ -64,6 +68,7 @@
    • *Non‑Example:* Security scanners running **after** generation (post‑hoc moderation only).
 
 **Secondary Levers**
+
 - **Compression & Distillation** — Summarization, map‑reduce, and elision strategies that compress context while preserving utility.  
 - **Temporal Freshness** — Recency cutoffs, re‑crawl cadence, time‑aware retrieval, temporal decay.  
 - **Multimodal Context** — Non‑text context (images, audio, tables, diagrams) normalized into model‑usable form.  
@@ -76,6 +81,7 @@
 ---
 
 ## Constructs & Variables (with Measurement Notes)
+
 **Independent Variables (manipulations)**  
 • Presence/absence of each lever; dosage (e.g., # retrieved chunks k; # repetitions r); position (top/bottom/segmented); format (table/prose/JSON); explicit priority statements; compression ratio; recency cutoff.  
 • *Measurement:* Encode as structured parameters; log seed, temperature, max tokens; store retrieval stats (precision/recall, MRR).
@@ -91,6 +97,7 @@
 ---
 
 ## Method Overview & Roles (What Stage 2 Will Collect)
+
 - **Systematic Literature Review:** Harvest, screen, code according to the Stage 1 schema/rubric.  
 - **Practitioner Studies:** Semi‑structured interviews and targeted surveys; artifact teardowns (prompts, configs, dashboards).  
 - **Experiments:** Factorial/A–B manipulations of levers on representative tasks; causal attribution harnesses.  
@@ -105,28 +112,34 @@
 ---
 
 ## Inclusion/Exclusion Criteria & Credibility Tiers
+
 **Inclusion**  
+
 - Date ≥ 2020‑01‑01; pertains to LLMs or transformer context control.  
 - Contains at least one of: lever description, evaluation, method detail, or artifact (prompt/config/code).  
 - For grey literature: must include methods and observable evidence (data, code, demo).
 
 **Exclusion**  
+
 - Pure opinion/marketing without methods/evidence.  
 - Non‑LLM or non‑context topics (e.g., generic model scaling without context implications).  
 - Duplicates/superseded versions (keep latest with strongest evidence).
 
 **Credibility Tiers (1–4)**  
+
 1. **Tier‑1:** Peer‑reviewed top venues; preregistered or audited lab studies with open code/data.  
 2. **Tier‑2:** Reputable lab/industry reports with methods + partial openness; major standards bodies.  
 3. **Tier‑3:** Detailed practitioner write‑ups/demos with measurements but limited rigor.  
 4. **Tier‑4:** Opinion pieces, marketing pages; minimal or no methods.
 
 **Evidence Weighting Guidance**  
+
 - Prefer Tier‑1/2 for causal claims; allow Tier‑3 for hypothesis generation; Tier‑4 only as context/terminology signals. Maintain a mixed‑tier portfolio per lever (see Sampling).
 
 ---
 
 ## Sampling Strategy (Systematic + Snowball + Stratified + Theoretical)
+
 - **Systematic Search:** Time window 2020‑present; prioritized venues/sources per Stage 1 Search Plan.  
 - **Backward/Forward Snowballing:** From anchor works; stop when three consecutive iterations yield <10% new inclusions.  
 - **Stratified Purposeful Sampling:** By *lever*, *domain*, *org type*, *credibility tier*.  
@@ -141,6 +154,7 @@
 ---
 
 ## Screening & Coding Workflow (PRISMA‑style)
+
 1. **Identification:** Collect records from search feeds; de‑dup (DOI/URL/title‑fuzzy/semantic).  
 2. **Title/Abstract Screen:** Two reviewers independently; decisions: Pass/Hold/Fail.  
 3. **Full‑Text Review:** Extract artifacts; verify lever relevance; record methods/metrics.  
@@ -151,6 +165,7 @@
 ---
 
 ## Quality Gates
+
 - **Coverage:** Meets diversity quotas and lever minimums.  
 - **Credibility Mix:** ≥60% Tier‑1/2 overall; ≥40% Tier‑1/2 per lever.  
 - **Schema Validity:** 100% of coded records validate against Stage 1 JSON Schema.  
@@ -161,13 +176,16 @@
 ---
 
 ## Ethics & Governance (Concrete Do/Don’t)
+
 **Do**  
+
 - Respect IP/TOS; cite sources; store only what’s permitted.  
 - Obtain informed consent for interviews; honor NDAs; anonymize practitioner data.  
 - Secure storage; role‑based access; redact PII; log access dates and retrieval paths.  
 - Preregister experimental protocols when feasible; record leakage checks and risk mitigations.
 
 **Don’t**  
+
 - Don’t scrape behind paywalls or bypass access controls.  
 - Don’t store secrets/credentials in datasets or prompts.  
 - Don’t share identifiable practitioner quotes without written consent.  
@@ -176,6 +194,7 @@
 ---
 
 ## Assumptions & Limitations
+
 - Public artifacts sufficiently represent core practices; some private configs may remain unavailable.  
 - Reported metrics can be noisy across labs; we will normalize where possible but avoid over‑aggregation.  
 - Model versions/weights evolve rapidly; we will timestamp configurations and access dates.  
@@ -184,6 +203,7 @@
 ---
 
 ## Versioning & Traceability
+
 - **Semantic Versioning:** `MAJOR.MINOR.PATCH` (e.g., 1.0.0 for Stage 1 release).  
 - **Change Log:** Each update lists schema/rubric/search changes and migration notes.  
 - **Timestamps:** All records include `access_date`; exports stamped with generation datetime and commit hash.
@@ -191,6 +211,7 @@
 ---
 
 ## Discovery Hooks (for Stage 2 exploration; ≤12)
+
 1. Where do compression ratios start to harm groundedness per domain?  
 2. Which boundary patterns measurably reduce jailbreak success without lowering task success?  
 3. How does retrieval precision vs. recall trade off under strict token budgets?  
@@ -203,4 +224,3 @@
 10. How does domain difficulty moderate lever efficacy?  
 11. What failure modes cluster with long‑context optimization?  
 12. Which evaluation harnesses most reliably detect leakage and contamination?
-
